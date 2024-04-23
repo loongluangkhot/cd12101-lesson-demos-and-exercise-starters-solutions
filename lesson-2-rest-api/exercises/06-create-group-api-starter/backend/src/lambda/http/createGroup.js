@@ -11,6 +11,24 @@ export async function handler(event) {
   const itemId = uuidv4()
 
   const parsedBody = JSON.parse(event.body)
+  const newItem = {
+    ...parsedBody,
+    id: itemId,
+  }
+  const params = {
+    TableName : groupsTable,
+    Item: newItem,
+  }
+  
+  await dynamoDbDocument.put(params);
 
-  // TODO: Implement the function
+  return {
+    statusCode: 201,
+    headers: {
+      'Access-Control-Allow-Origin': '*'
+    },
+    body: JSON.stringify({
+      newItem
+    })
+  }
 }
